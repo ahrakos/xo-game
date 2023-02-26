@@ -1,31 +1,24 @@
 import { useState } from "react";
 import { Cell } from "./Cell";
 import "./Board.css";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Game = () => {
-  const [board, setBoard] = useState([
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const dispatch = useDispatch();
 
-  const [turn, setTurn] = useState("X");
+  const board = useSelector((state) => state.board);
 
-  const onClick = (item, idx) => {
-    if (item) {
+  const onClick = (char, idx) => {
+    if (char) {
       return;
     }
 
-    const newBoard = [...board];
-    newBoard[idx] = turn;
-    setTurn(turn === "X" ? "O" : "X");
-    setBoard(newBoard);
+    dispatch({
+      type: "PLAY_TURN",
+      payload: {
+        idx,
+      },
+    });
   };
 
   return (
